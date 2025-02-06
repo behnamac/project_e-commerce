@@ -25,8 +25,13 @@ function Navbar() {
 		<nav className="flex w-full items-center justify-center">
 			<div className="mx-auto h-12 w-full max-w-[1920px] min-w-[300px] flex-col border-b-2 border-b-gray-300 bg-gray-100 lg:h-32">
 				<div className="flex h-full w-full items-center justify-between lg:h-1/2">
-					<span className="font-display absolute left-2 text-2xl font-semibold md:left-1/2 md:-translate-x-1/2 lg:top-4 lg:text-3xl">
-						BENSTORE
+					<span className="absolute left-2 md:left-1/2 md:-translate-x-1/2 lg:top-4">
+						<a
+							href="/"
+							className="font-display text-2xl font-semibold lg:text-3xl"
+						>
+							BENSTORE
+						</a>
 					</span>
 					<button className="hidden h-10 w-36 translate-x-6 items-center justify-center gap-2 rounded-xs md:flex">
 						<FaPhoneAlt />
@@ -43,7 +48,9 @@ function Navbar() {
 							</button>
 						))}
 					</div>
-					<IoMenuSharp className="h-10 w-10 -translate-x-2 hover:cursor-pointer lg:hidden" />
+					<button className="h-10 w-10 -translate-x-2 hover:cursor-pointer lg:hidden">
+						<IoMenuSharp className="h-full w-full" />
+					</button>
 				</div>
 				<div className="relative hidden h-1/2 w-full items-center justify-center pl-5 lg:flex">
 					<ul className="ml-5 flex items-center justify-center gap-16">
