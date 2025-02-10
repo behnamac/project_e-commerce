@@ -1,4 +1,3 @@
-import React from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { FaRegUser } from 'react-icons/fa6';
 import { SlBasket } from 'react-icons/sl';
