@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
+import slide1 from '../assets/images/slider/slide01.jpg';
+import slide2 from '../assets/images/slider/slide02.jpg';
+import slide3 from '../assets/images/slider/slide03.jpg';
+import slide4 from '../assets/images/slider/slide04.jpg';
 
 function Hero() {
-	const slidesImages = [
-		'src/assets/images/slider/slide01.jpg',
-		'src/assets/images/slider/slide02.jpg',
-		'src/assets/images/slider/slide03.jpg',
-		'src/assets/images/slider/slide04.jpg',
-	];
+	const slidesImages = [slide1, slide2, slide3, slide4];
 	const [currentSlide, setCurrentSlide] = useState(0);
 	const handleNextSlide = () => {
 		setCurrentSlide((prevSlide) => (prevSlide + 1) % slidesImages.length);
