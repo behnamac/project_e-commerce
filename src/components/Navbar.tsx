@@ -22,9 +22,9 @@ function Navbar() {
 	];
 
 	return (
-		<nav className="flex w-full items-center justify-center">
-			<div className="mx-auto h-12 w-full max-w-[1920px] min-w-[300px] flex-col border-b-2 border-b-gray-300 bg-gray-100 lg:h-32">
-				<div className="flex h-full w-full items-center justify-between lg:h-1/2">
+		<nav className="c-center">
+			<div className="c-space h-12 flex-col border-b-2 border-b-gray-300 bg-gray-100 lg:h-32">
+				<div className="c-between h-full w-full  lg:h-1/2">
 					<span className="absolute left-2 md:left-1/2 md:-translate-x-1/2 lg:top-4">
 						<a
 							href="/"

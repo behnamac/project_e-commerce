@@ -14,3 +14,13 @@ html {
 @theme {
 	--font-display: 'Leckerli One';
 }
+
+.c-center {
+	@apply flex items-center justify-center;
+}
+.c-space {
+	@apply mx-auto flex w-full max-w-[1920px] min-w-[350px] items-center justify-center;
+}
+.c-between {
+	@apply flex items-center justify-between;
+}
