@@ -1,92 +1,131 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IoSearch } from 'react-icons/io5';
-import { FaRegUser } from 'react-icons/fa6';
+import { FaRegUser, FaRegHeart } from 'react-icons/fa';
 import { SlBasket } from 'react-icons/sl';
-import { FaRegHeart } from 'react-icons/fa';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { IoMenuSharp } from 'react-icons/io5';
 import { useCart } from '../context/CartContext';
 
 function Navbar() {
 	const { state } = useCart();
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const cartItemCount = state.items.reduce(
 		(total, item) => total + item.quantity,
 		0,
 	);
 
 	const navButtons = [
-		{ icon: IoSearch, label: 'Search' },
-		{ icon: FaRegHeart, label: 'Favorites' },
-		{ icon: FaRegUser, label: 'Profile' },
+		{
+			icon: IoSearch,
+			label: 'Search',
+			action: () => console.log('Search'),
+		},
+		{
+			icon: FaRegHeart,
+			label: 'Favorites',
+			action: () => console.log('Favorites'),
+		},
+		{
+			icon: FaRegUser,
+			label: 'Profile',
+			action: () => console.log('Profile'),
+		},
 	];
+
 	const navLinks = [
 		{ href: '/', label: 'Home' },
-		{ href: '/?category=backpack', label: 'BackPack' },
+		{ href: '/?category=backpack', label: 'Backpacks' },
 		{ href: '/?category=messenger', label: 'Messenger Bags' },
-		{ href: '/?category=briefcase', label: 'Briefcase' },
-		{ href: '/?category=tote', label: 'Totes' },
+		{ href: '/?category=briefcase', label: 'Briefcases' },
+		{ href: '/?category=tote', label: 'Tote Bags' },
 		{ href: '/?category=clutch', label: 'Clutches' },
 	];
 
 	return (
-		<nav className="c-center">
-			<div className="c-space h-12 flex-col border-b-2 border-b-gray-300 bg-gray-100 lg:h-32">
-				<div className="c-between h-full w-full lg:h-1/2">
-					<span className="absolute left-2 md:left-1/2 md:-translate-x-1/2 lg:top-4">
-						<Link
-							to="/"
-							className="font-display text-2xl font-semibold lg:text-3xl"
-						>
-							BENSTORE
-						</Link>
-					</span>
-					<button className="hidden h-10 w-36 translate-x-6 items-center justify-center gap-2 rounded-xs md:flex">
-						<FaPhoneAlt />
-						<span> +1-123456789</span>
-					</button>
-
-					<div className="flex w-[170px] items-center justify-center gap-2">
-						{navButtons.map((button, index) => (
-							<button
-								key={index}
-								className="hidden h-10 w-10 items-center justify-center hover:cursor-pointer lg:flex"
-							>
-								<button.icon />
-							</button>
-						))}
+		<div className="navbar bg-base-100 shadow-lg">
+			<div className="navbar-start">
+				<div className="dropdown">
+					<div
+						tabIndex={0}
+						role="button"
+						className="btn btn-ghost lg:hidden"
+						onClick={() => setIsMenuOpen(!isMenuOpen)}
+					>
+						<IoMenuSharp className="h-5 w-5" />
 					</div>
-					<button className="h-10 w-10 -translate-x-2 hover:cursor-pointer lg:hidden">
-						<IoMenuSharp className="h-full w-full" />
+					{isMenuOpen && (
+						<ul
+							tabIndex={0}
+							className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+						>
+							{navLinks.map((link, index) => (
+								<li key={index}>
+									<Link
+										to={link.href}
+										className="hover:text-primary"
+									>
+										{link.label}
+									</Link>
+								</li>
+							))}
+						</ul>
+					)}
+				</div>
+				<Link to="/" className="btn btn-ghost font-display text-xl">
+					BENSTORE
+				</Link>
+			</div>
+
+			<div className="navbar-center hidden lg:flex">
+				<ul className="menu menu-horizontal px-1">
+					{navLinks.map((link, index) => (
+						<li key={index}>
+							<Link
+								to={link.href}
+								className="hover:text-primary transition-colors"
+							>
+								{link.label}
+							</Link>
+						</li>
+					))}
+				</ul>
+			</div>
+
+			<div className="navbar-end">
+				<div className="mr-4 hidden items-center gap-2 md:flex">
+					<button className="btn btn-ghost btn-sm">
+						<FaPhoneAlt className="h-4 w-4" />
+						<span className="hidden lg:inline">+1-123456789</span>
 					</button>
 				</div>
-				<div className="relative hidden h-1/2 w-full items-center justify-center pl-5 lg:flex">
-					<ul className="ml-5 flex items-center justify-center gap-16">
-						{navLinks.map((link, index) => (
-							<li
-								key={index}
-								className="flex h-full items-center justify-center"
-							>
-								<Link
-									to={link.href}
-									className="flex h-full items-center justify-center transition-colors hover:text-blue-600"
-								>
-									{link.label}
-								</Link>
-							</li>
-						))}
-					</ul>
+
+				<div className="flex items-center gap-2">
+					{navButtons.map((button, index) => (
+						<button
+							key={index}
+							onClick={button.action}
+							className="btn btn-ghost btn-circle"
+							title={button.label}
+						>
+							<button.icon className="h-5 w-5" />
+						</button>
+					))}
+
 					<Link
 						to="/cart"
-						className="absolute right-6 flex items-center justify-center gap-2 transition-colors hover:text-blue-600"
+						className="btn btn-ghost btn-circle relative"
 					>
-						<SlBasket className="text-xl" />
-						<span className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-800 text-center text-white">
-							{cartItemCount}
-						</span>
+						<SlBasket className="h-5 w-5" />
+						{cartItemCount > 0 && (
+							<span className="badge badge-primary badge-sm absolute -top-1 -right-1">
+								{cartItemCount}
+							</span>
+						)}
 					</Link>
 				</div>
 			</div>
-		</nav>
+		</div>
 	);
 }
 

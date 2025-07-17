@@ -7,44 +7,43 @@ const Cart = () => {
 
 	if (state.items.length === 0) {
 		return (
-			<div className="c-center min-h-screen py-8">
-				<div className="c-space flex-col gap-8 text-center">
-					<div className="flex flex-col items-center gap-4">
-						<div className="flex h-24 w-24 items-center justify-center rounded-full bg-gray-100">
-							<FaShoppingCart className="h-12 w-12 text-gray-400" />
+			<div className="hero bg-base-200 min-h-screen">
+				<div className="hero-content text-center">
+					<div className="max-w-md">
+						<div className="avatar placeholder mb-6">
+							<div className="bg-neutral text-neutral-content w-24 rounded-full">
+								<FaShoppingCart className="h-12 w-12" />
+							</div>
 						</div>
-						<h1 className="text-2xl font-bold text-gray-800">
+						<h1 className="text-base-content mb-4 text-3xl font-bold">
 							Your cart is empty
 						</h1>
-						<p className="text-gray-600">
+						<p className="text-base-content/70 mb-8">
 							Looks like you haven't added any items to your cart
 							yet.
 						</p>
+						<Link to="/" className="btn btn-primary">
+							<FaArrowLeft className="mr-2" />
+							Continue Shopping
+						</Link>
 					</div>
-					<Link
-						to="/"
-						className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
-					>
-						<FaArrowLeft />
-						Continue Shopping
-					</Link>
 				</div>
 			</div>
 		);
 	}
 
 	return (
-		<div className="c-center min-h-screen py-8">
-			<div className="c-space flex-col gap-8 lg:flex-row lg:items-start">
+		<div className="container mx-auto px-4 py-8">
+			<div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
 				{/* Cart Items */}
-				<div className="w-full lg:w-2/3">
+				<div className="lg:col-span-2">
 					<div className="mb-6 flex items-center justify-between">
-						<h1 className="text-2xl font-bold text-gray-800">
+						<h1 className="text-base-content text-3xl font-bold">
 							Shopping Cart
 						</h1>
 						<button
 							onClick={clearCart}
-							className="text-sm text-red-600 hover:text-red-800"
+							className="btn btn-ghost btn-sm text-error"
 						>
 							Clear Cart
 						</button>
@@ -54,90 +53,103 @@ const Cart = () => {
 						{state.items.map((item) => (
 							<div
 								key={item.product.id}
-								className="flex gap-4 rounded-lg border border-gray-200 bg-white p-4"
+								className="card bg-base-100 shadow-xl"
 							>
-								{/* Product Image */}
-								<div className="aspect-square h-24 w-24 overflow-hidden rounded-lg">
-									<img
-										src={item.product.images[0]}
-										alt={item.product.name}
-										className="h-full w-full object-cover"
-									/>
-								</div>
-
-								{/* Product Details */}
-								<div className="flex flex-1 flex-col justify-between">
-									<div>
-										<Link
-											to={`/product/${item.product.id}`}
-											className="text-lg font-semibold text-gray-800 hover:text-blue-600"
-										>
-											{item.product.name}
-										</Link>
-										<p className="text-sm text-gray-600">
-											{item.product.description.substring(
-												0,
-												100,
-											)}
-											...
-										</p>
-									</div>
-
-									<div className="flex items-center justify-between">
-										<div className="flex items-center gap-4">
-											{/* Quantity Controls */}
-											<div className="flex items-center gap-2">
-												<button
-													onClick={() =>
-														updateQuantity(
-															item.product.id,
-															item.quantity - 1,
-														)
-													}
-													className="flex h-8 w-8 items-center justify-center rounded border border-gray-300 hover:bg-gray-50"
-												>
-													-
-												</button>
-												<span className="w-8 text-center font-semibold">
-													{item.quantity}
-												</span>
-												<button
-													onClick={() =>
-														updateQuantity(
-															item.product.id,
-															item.quantity + 1,
-														)
-													}
-													className="flex h-8 w-8 items-center justify-center rounded border border-gray-300 hover:bg-gray-50"
-												>
-													+
-												</button>
-											</div>
-
-											{/* Price */}
-											<div className="text-right">
-												<div className="font-semibold text-gray-900">
-													$
-													{(
-														item.product.price *
-														item.quantity
-													).toFixed(2)}
-												</div>
-												<div className="text-sm text-gray-600">
-													${item.product.price} each
-												</div>
+								<div className="card-body p-6">
+									<div className="flex gap-4">
+										{/* Product Image */}
+										<div className="avatar">
+											<div className="h-24 w-24 rounded-lg">
+												<img
+													src={item.product.images[0]}
+													alt={item.product.name}
+													className="h-full w-full object-cover"
+												/>
 											</div>
 										</div>
 
-										{/* Remove Button */}
-										<button
-											onClick={() =>
-												removeItem(item.product.id)
-											}
-											className="text-red-600 hover:text-red-800"
-										>
-											<FaTrash />
-										</button>
+										{/* Product Details */}
+										<div className="flex-1">
+											<Link
+												to={`/product/${item.product.id}`}
+												className="card-title hover:text-primary text-lg transition-colors"
+											>
+												{item.product.name}
+											</Link>
+											<p className="text-base-content/70 mb-4 text-sm">
+												{item.product.description.substring(
+													0,
+													100,
+												)}
+												...
+											</p>
+
+											<div className="flex items-center justify-between">
+												<div className="flex items-center gap-4">
+													{/* Quantity Controls */}
+													<div className="join">
+														<button
+															onClick={() =>
+																updateQuantity(
+																	item.product
+																		.id,
+																	item.quantity -
+																		1,
+																)
+															}
+															className="btn join-item btn-sm"
+														>
+															-
+														</button>
+														<button className="btn join-item btn-sm btn-disabled">
+															{item.quantity}
+														</button>
+														<button
+															onClick={() =>
+																updateQuantity(
+																	item.product
+																		.id,
+																	item.quantity +
+																		1,
+																)
+															}
+															className="btn join-item btn-sm"
+														>
+															+
+														</button>
+													</div>
+
+													{/* Price */}
+													<div className="text-right">
+														<div className="text-primary text-lg font-bold">
+															$
+															{(
+																item.product
+																	.price *
+																item.quantity
+															).toFixed(2)}
+														</div>
+														<div className="text-base-content/60 text-sm">
+															$
+															{item.product.price}{' '}
+															each
+														</div>
+													</div>
+												</div>
+
+												{/* Remove Button */}
+												<button
+													onClick={() =>
+														removeItem(
+															item.product.id,
+														)
+													}
+													className="btn btn-ghost btn-sm text-error"
+												>
+													<FaTrash />
+												</button>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -146,69 +158,75 @@ const Cart = () => {
 				</div>
 
 				{/* Order Summary */}
-				<div className="w-full lg:w-1/3">
-					<div className="rounded-lg border border-gray-200 bg-white p-6">
-						<h2 className="mb-4 text-xl font-bold text-gray-800">
-							Order Summary
-						</h2>
+				<div className="lg:col-span-1">
+					<div className="card bg-base-100 sticky top-4 shadow-xl">
+						<div className="card-body">
+							<h2 className="card-title mb-4 text-xl">
+								Order Summary
+							</h2>
 
-						<div className="space-y-3">
-							<div className="flex justify-between">
-								<span className="text-gray-600">
-									Subtotal ({state.items.length} items)
-								</span>
-								<span className="font-semibold">
-									${state.total.toFixed(2)}
-								</span>
+							<div className="space-y-3">
+								<div className="flex justify-between">
+									<span className="text-base-content/70">
+										Subtotal ({state.items.length} items)
+									</span>
+									<span className="font-semibold">
+										${state.total.toFixed(2)}
+									</span>
+								</div>
+								<div className="flex justify-between">
+									<span className="text-base-content/70">
+										Shipping
+									</span>
+									<span className="text-success font-semibold">
+										Free
+									</span>
+								</div>
+								<div className="flex justify-between">
+									<span className="text-base-content/70">
+										Tax
+									</span>
+									<span className="font-semibold">
+										${(state.total * 0.08).toFixed(2)}
+									</span>
+								</div>
+								<div className="divider"></div>
+								<div className="flex justify-between text-lg font-bold">
+									<span>Total</span>
+									<span className="text-primary">
+										${(state.total * 1.08).toFixed(2)}
+									</span>
+								</div>
 							</div>
-							<div className="flex justify-between">
-								<span className="text-gray-600">Shipping</span>
-								<span className="font-semibold text-green-600">
-									Free
-								</span>
-							</div>
-							<div className="flex justify-between">
-								<span className="text-gray-600">Tax</span>
-								<span className="font-semibold">
-									${(state.total * 0.08).toFixed(2)}
-								</span>
-							</div>
-							<hr className="my-4" />
-							<div className="flex justify-between text-lg font-bold">
-								<span>Total</span>
-								<span>${(state.total * 1.08).toFixed(2)}</span>
+
+							<div className="card-actions mt-6">
+								<Link
+									to="/checkout"
+									className="btn btn-primary w-full"
+								>
+									Proceed to Checkout
+								</Link>
+								<Link to="/" className="btn btn-outline w-full">
+									Continue Shopping
+								</Link>
 							</div>
 						</div>
-
-						<Link
-							to="/checkout"
-							className="mt-6 block w-full rounded-lg bg-blue-600 px-6 py-3 text-center font-semibold text-white transition-colors hover:bg-blue-700"
-						>
-							Proceed to Checkout
-						</Link>
-
-						<Link
-							to="/"
-							className="mt-4 block w-full rounded-lg border border-gray-300 px-6 py-3 text-center font-semibold text-gray-700 transition-colors hover:bg-gray-50"
-						>
-							Continue Shopping
-						</Link>
 					</div>
 
 					{/* Promo Code */}
-					<div className="mt-4 rounded-lg border border-gray-200 bg-white p-6">
-						<h3 className="mb-3 font-semibold text-gray-800">
-							Promo Code
-						</h3>
-						<div className="flex gap-2">
-							<input
-								type="text"
-								placeholder="Enter code"
-								className="flex-1 rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
-							/>
-							<button className="rounded-lg bg-gray-800 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-gray-900">
-								Apply
-							</button>
+					<div className="card bg-base-100 mt-4 shadow-xl">
+						<div className="card-body">
+							<h3 className="card-title mb-3 text-lg">
+								Promo Code
+							</h3>
+							<div className="join w-full">
+								<input
+									type="text"
+									placeholder="Enter code"
+									className="input input-bordered join-item flex-1"
+								/>
+								<button className="btn join-item">Apply</button>
+							</div>
 						</div>
 					</div>
 				</div>

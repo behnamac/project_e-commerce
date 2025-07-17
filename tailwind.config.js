@@ -1,0 +1,58 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+	theme: {
+		extend: {
+			fontFamily: {
+				display: ['Leckerli One', 'cursive'],
+			},
+		},
+	},
+	plugins: [require('daisyui')],
+	daisyui: {
+		themes: [
+			{
+				benstore: {
+					primary: '#3b82f6',
+					secondary: '#64748b',
+					accent: '#f59e0b',
+					neutral: '#1f2937',
+					'base-100': '#ffffff',
+					info: '#0ea5e9',
+					success: '#10b981',
+					warning: '#f59e0b',
+					error: '#ef4444',
+				},
+			},
+			'light',
+			'dark',
+			'cupcake',
+			'bumblebee',
+			'emerald',
+			'corporate',
+			'synthwave',
+			'retro',
+			'cyberpunk',
+			'valentine',
+			'halloween',
+			'garden',
+			'forest',
+			'aqua',
+			'lofi',
+			'pastel',
+			'fantasy',
+			'wireframe',
+			'black',
+			'luxury',
+			'dracula',
+			'cmyk',
+			'autumn',
+			'business',
+			'acid',
+			'lemonade',
+			'night',
+			'coffee',
+			'winter',
+		],
+	},
+};

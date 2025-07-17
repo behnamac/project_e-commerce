@@ -13,9 +13,9 @@ const App = () => {
 	return (
 		<CartProvider>
 			<Router>
-				<div className="min-h-screen bg-gray-50">
+				<div data-theme="benstore" className="bg-base-100 min-h-screen">
 					<Navbar />
-					<main>
+					<main className="flex-1">
 						<Routes>
 							<Route path="/" element={<Home />} />
 							<Route path="/product/:id" element={<Product />} />

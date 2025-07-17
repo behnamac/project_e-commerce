@@ -24,85 +24,89 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 	};
 
 	return (
-		<div className="group relative overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-lg">
-			<Link to={`/product/${product.id}`}>
-				<div className="relative aspect-square overflow-hidden">
+		<div className="card bg-base-100 hover-lift group shadow-xl transition-all duration-300 hover:shadow-2xl">
+			<figure className="relative overflow-hidden">
+				<Link to={`/product/${product.id}`}>
 					<img
 						src={product.images[0]}
 						alt={product.name}
-						className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+						className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
 					/>
-					{product.originalPrice && (
-						<div className="absolute top-2 left-2 rounded-full bg-red-500 px-2 py-1 text-xs font-semibold text-white">
-							{Math.round(
-								((product.originalPrice - product.price) /
-									product.originalPrice) *
-									100,
-							)}
-							% OFF
-						</div>
-					)}
-					<button
-						onClick={handleWishlist}
-						className={`absolute top-2 right-2 rounded-full p-2 transition-colors ${
-							isWishlisted
-								? 'bg-red-500 text-white'
-								: 'bg-white/80 text-gray-600 hover:bg-red-500 hover:text-white'
-						}`}
-					>
-						<FaHeart className="h-4 w-4" />
-					</button>
-				</div>
-			</Link>
-
-			<div className="p-4">
-				<Link to={`/product/${product.id}`}>
-					<h3 className="mb-2 line-clamp-2 text-lg font-semibold text-gray-800 hover:text-blue-600">
-						{product.name}
-					</h3>
 				</Link>
 
-				<div className="mb-2 flex items-center gap-1">
-					<div className="flex items-center">
+				{/* Badge for discount */}
+				{product.originalPrice && (
+					<div className="badge badge-error absolute top-2 left-2">
+						{Math.round(
+							((product.originalPrice - product.price) /
+								product.originalPrice) *
+								100,
+						)}
+						% OFF
+					</div>
+				)}
+
+				{/* Wishlist button */}
+				<button
+					onClick={handleWishlist}
+					className={`btn btn-circle btn-sm absolute top-2 right-2 ${
+						isWishlisted ? 'btn-error' : 'btn-ghost bg-base-100/80'
+					}`}
+				>
+					<FaHeart className="h-4 w-4" />
+				</button>
+			</figure>
+
+			<div className="card-body p-4">
+				<Link to={`/product/${product.id}`}>
+					<h2 className="card-title hover:text-primary line-clamp-2 text-base transition-colors">
+						{product.name}
+					</h2>
+				</Link>
+
+				{/* Rating */}
+				<div className="mb-2 flex items-center gap-2">
+					<div className="rating rating-sm">
 						{Array.from({ length: 5 }).map((_, index) => (
-							<FaStar
+							<input
 								key={index}
-								className={`h-4 w-4 ${
-									index < Math.floor(product.rating)
-										? 'text-yellow-400'
-										: 'text-gray-300'
-								}`}
+								type="radio"
+								name={`rating-${product.id}`}
+								className="mask mask-star-2 bg-orange-400"
+								checked={index < Math.floor(product.rating)}
+								readOnly
 							/>
 						))}
 					</div>
-					<span className="ml-1 text-sm text-gray-600">
+					<span className="text-base-content/60 text-sm">
 						({product.reviews})
 					</span>
 				</div>
 
+				{/* Price */}
 				<div className="mb-3 flex items-center gap-2">
-					<span className="text-xl font-bold text-gray-900">
+					<span className="text-primary text-xl font-bold">
 						${product.price}
 					</span>
 					{product.originalPrice && (
-						<span className="text-sm text-gray-500 line-through">
+						<span className="text-base-content/50 text-sm line-through">
 							${product.originalPrice}
 						</span>
 					)}
 				</div>
 
-				<div className="flex items-center justify-between">
+				{/* Stock status and Add to cart */}
+				<div className="card-actions items-center justify-between">
 					<span
-						className={`text-sm font-medium ${
-							product.inStock ? 'text-green-600' : 'text-red-600'
-						}`}
+						className={`badge ${product.inStock ? 'badge-success' : 'badge-error'}`}
 					>
 						{product.inStock ? 'In Stock' : 'Out of Stock'}
 					</span>
+
 					<button
 						onClick={handleAddToCart}
 						disabled={!product.inStock}
-						className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
+						className={`btn btn-primary btn-sm ${quantity > 0 ? 'btn-outline' : ''}`}
 					>
 						<FaShoppingCart className="h-4 w-4" />
 						{quantity > 0 ? `(${quantity})` : 'Add to Cart'}
