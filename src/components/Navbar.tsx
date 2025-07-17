@@ -1,11 +1,19 @@
+import { Link } from 'react-router-dom';
 import { IoSearch } from 'react-icons/io5';
 import { FaRegUser } from 'react-icons/fa6';
 import { SlBasket } from 'react-icons/sl';
 import { FaRegHeart } from 'react-icons/fa';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { IoMenuSharp } from 'react-icons/io5';
+import { useCart } from '../context/CartContext';
 
 function Navbar() {
+	const { state } = useCart();
+	const cartItemCount = state.items.reduce(
+		(total, item) => total + item.quantity,
+		0,
+	);
+
 	const navButtons = [
 		{ icon: IoSearch, label: 'Search' },
 		{ icon: FaRegHeart, label: 'Favorites' },
@@ -13,24 +21,24 @@ function Navbar() {
 	];
 	const navLinks = [
 		{ href: '/', label: 'Home' },
-		{ href: '/backPack', label: 'BackPack' },
-		{ href: '/messengerBags', label: 'Messenger Bags' },
-		{ href: '/brifcase', label: 'Brifcase' },
-		{ href: '/totes', label: 'Totes' },
-		{ href: '/clutches', label: 'Clutches' },
+		{ href: '/?category=backpack', label: 'BackPack' },
+		{ href: '/?category=messenger', label: 'Messenger Bags' },
+		{ href: '/?category=briefcase', label: 'Briefcase' },
+		{ href: '/?category=tote', label: 'Totes' },
+		{ href: '/?category=clutch', label: 'Clutches' },
 	];
 
 	return (
 		<nav className="c-center">
 			<div className="c-space h-12 flex-col border-b-2 border-b-gray-300 bg-gray-100 lg:h-32">
-				<div className="c-between h-full w-full  lg:h-1/2">
+				<div className="c-between h-full w-full lg:h-1/2">
 					<span className="absolute left-2 md:left-1/2 md:-translate-x-1/2 lg:top-4">
-						<a
-							href="/"
+						<Link
+							to="/"
 							className="font-display text-2xl font-semibold lg:text-3xl"
 						>
 							BENSTORE
-						</a>
+						</Link>
 					</span>
 					<button className="hidden h-10 w-36 translate-x-6 items-center justify-center gap-2 rounded-xs md:flex">
 						<FaPhoneAlt />
@@ -58,21 +66,24 @@ function Navbar() {
 								key={index}
 								className="flex h-full items-center justify-center"
 							>
-								<a
-									href={link.href}
-									className="flex h-full items-center justify-center"
+								<Link
+									to={link.href}
+									className="flex h-full items-center justify-center transition-colors hover:text-blue-600"
 								>
 									{link.label}
-								</a>
+								</Link>
 							</li>
 						))}
 					</ul>
-					<div className="absolute right-6 flex items-center justify-center gap-2">
+					<Link
+						to="/cart"
+						className="absolute right-6 flex items-center justify-center gap-2 transition-colors hover:text-blue-600"
+					>
 						<SlBasket className="text-xl" />
 						<span className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-800 text-center text-white">
-							0
+							{cartItemCount}
 						</span>
-					</div>
+					</Link>
 				</div>
 			</div>
 		</nav>
