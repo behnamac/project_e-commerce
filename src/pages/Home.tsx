@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 import ProductCard from '../components/ProductCard';
 import { products, categories } from '../data/products';
@@ -40,6 +40,46 @@ function Home() {
 	return (
 		<div className="min-h-screen">
 			<Hero />
+
+			{/* Categories Section */}
+			<section className="bg-base-200 py-12">
+				<div className="container mx-auto px-4">
+					<div className="mb-12 text-center">
+						<h2 className="text-base-content mb-4 text-4xl font-bold">
+							Shop by Category
+						</h2>
+						<p className="text-base-content/70 text-lg">
+							Explore our wide range of products
+						</p>
+					</div>
+
+					<div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
+						{categories.map((category) => (
+							<Link
+								key={category.id}
+								to={`/category/${category.id}`}
+								className="card bg-base-100 shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+							>
+								<div className="card-body text-center p-4">
+									<div className="avatar placeholder mb-2">
+										<div className="bg-primary text-primary-content w-12 h-12 rounded-full">
+											<span className="text-lg font-bold">
+												{category.name.charAt(0)}
+											</span>
+										</div>
+									</div>
+									<h3 className="card-title text-sm justify-center">
+										{category.name}
+									</h3>
+									<p className="text-xs text-base-content/60">
+										{category.count} items
+									</p>
+								</div>
+							</Link>
+						))}
+					</div>
+				</div>
+			</section>
 
 			<section className="bg-base-100 py-12">
 				<div className="container mx-auto px-4">

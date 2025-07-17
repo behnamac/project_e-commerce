@@ -35,11 +35,13 @@ function Navbar() {
 
 	const navLinks = [
 		{ href: '/', label: 'Home' },
-		{ href: '/?category=backpack', label: 'Backpacks' },
-		{ href: '/?category=messenger', label: 'Messenger Bags' },
-		{ href: '/?category=briefcase', label: 'Briefcases' },
-		{ href: '/?category=tote', label: 'Tote Bags' },
-		{ href: '/?category=clutch', label: 'Clutches' },
+		{ href: '/category/backpack', label: 'Backpacks' },
+		{ href: '/category/messenger', label: 'Messenger Bags' },
+		{ href: '/category/briefcase', label: 'Briefcases' },
+		{ href: '/category/tote', label: 'Tote Bags' },
+		{ href: '/category/clutch', label: 'Clutches' },
+		{ href: '/category/tshirt', label: 'T-Shirts' },
+		{ href: '/category/shoes', label: 'Shoes' },
 	];
 
 	return (
