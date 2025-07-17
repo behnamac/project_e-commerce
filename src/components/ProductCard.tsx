@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaStar, FaHeart, FaShoppingCart } from 'react-icons/fa';
+import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import { Product } from '../data/products';
 import { useCart } from '../context/CartContext';
 
