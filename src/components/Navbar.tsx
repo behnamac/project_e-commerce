@@ -6,17 +6,15 @@ import { SlBasket } from 'react-icons/sl';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { IoMenuSharp } from 'react-icons/io5';
 import { FaSun, FaMoon } from 'react-icons/fa';
-import { useCart } from '../context/CartContext';
-import { useTheme } from '../context/ThemeContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectCartItemCount } from '../store/slices/cartSlice';
+import { selectTheme, toggleTheme } from '../store/slices/themeSlice';
 
 function Navbar() {
-	const { state } = useCart();
-	const { theme, toggleTheme } = useTheme();
+	const dispatch = useAppDispatch();
+	const theme = useAppSelector(selectTheme);
+	const cartItemCount = useAppSelector(selectCartItemCount);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const cartItemCount = state.items.reduce(
-		(total, item) => total + item.quantity,
-		0,
-	);
 
 	const navButtons = [
 		{
@@ -118,7 +116,7 @@ function Navbar() {
 					))}
 
 					<button
-						onClick={toggleTheme}
+						onClick={() => dispatch(toggleTheme())}
 						className="btn btn-ghost btn-circle"
 						title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
 					>

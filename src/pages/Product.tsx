@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FaStar, FaHeart, FaShoppingCart, FaArrowLeft } from 'react-icons/fa';
 import { products } from '../data/products';
-import { useCart } from '../context/CartContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { addItem, selectItemQuantity } from '../store/slices/cartSlice';
 
 const Product = () => {
 	const { id } = useParams<{ id: string }>();
-	const { addItem, getItemQuantity } = useCart();
+	const dispatch = useAppDispatch();
 	const [selectedImage, setSelectedImage] = useState(0);
 	const [selectedSize, setSelectedSize] = useState<string>('');
 	const [selectedColor, setSelectedColor] = useState<string>('');
@@ -30,10 +31,12 @@ const Product = () => {
 	}
 
 	const handleAddToCart = () => {
-		addItem(product);
+		dispatch(addItem(product));
 	};
 
-	const cartQuantity = getItemQuantity(product.id);
+	const cartQuantity = useAppSelector((state) =>
+		selectItemQuantity(state, product.id),
+	);
 
 	return (
 		<div className="c-center min-h-screen py-8">

@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import { Product } from '../data/products';
-import { useCart } from '../context/CartContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { addItem, selectItemQuantity } from '../store/slices/cartSlice';
 
 interface ProductCardProps {
 	product: Product;
@@ -10,12 +11,14 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 	const [isWishlisted, setIsWishlisted] = useState(false);
-	const { addItem, getItemQuantity } = useCart();
-	const quantity = getItemQuantity(product.id);
+	const dispatch = useAppDispatch();
+	const quantity = useAppSelector((state) =>
+		selectItemQuantity(state, product.id),
+	);
 
 	const handleAddToCart = (e: React.MouseEvent) => {
 		e.preventDefault();
-		addItem(product);
+		dispatch(addItem(product));
 	};
 
 	const handleWishlist = (e: React.MouseEvent) => {
@@ -24,7 +27,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 	};
 
 	return (
-		<div className="card bg-base-100 hover-lift group shadow-xl transition-all duration-300 hover:shadow-2xl">
+		<div className="hover-lift group card bg-base-100 shadow-xl transition-all duration-300 hover:shadow-2xl">
 			<figure className="relative overflow-hidden">
 				<Link to={`/product/${product.id}`}>
 					<img
@@ -36,7 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
 				{/* Badge for discount */}
 				{product.originalPrice && (
-					<div className="badge badge-error absolute top-2 left-2">
+					<div className="badge badge-error absolute left-2 top-2">
 						{Math.round(
 							((product.originalPrice - product.price) /
 								product.originalPrice) *
@@ -49,8 +52,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 				{/* Wishlist button */}
 				<button
 					onClick={handleWishlist}
-					className={`btn btn-circle btn-sm absolute top-2 right-2 ${
-						isWishlisted ? 'btn-error' : 'btn-ghost bg-base-100/80'
+					className={`btn btn-sm btn-circle absolute right-2 top-2 ${
+						isWishlisted ? 'btn-error' : 'bg-base-100/80 btn-ghost'
 					}`}
 				>
 					<FaHeart className="h-4 w-4" />
@@ -59,7 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
 			<div className="card-body p-4">
 				<Link to={`/product/${product.id}`}>
-					<h2 className="card-title hover:text-primary line-clamp-2 text-base transition-colors">
+					<h2 className="card-title line-clamp-2 text-base transition-colors hover:text-primary">
 						{product.name}
 					</h2>
 				</Link>
@@ -85,7 +88,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
 				{/* Price */}
 				<div className="mb-3 flex items-center gap-2">
-					<span className="text-primary text-xl font-bold">
+					<span className="text-xl font-bold text-primary">
 						${product.price}
 					</span>
 					{product.originalPrice && (

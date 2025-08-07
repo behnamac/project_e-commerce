@@ -1,21 +1,30 @@
 import { Link } from 'react-router-dom';
 import { FaTrash, FaArrowLeft, FaShoppingCart } from 'react-icons/fa';
-import { useCart } from '../context/CartContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import {
+	selectCartItems,
+	selectCartTotal,
+	updateQuantity,
+	removeItem,
+	clearCart,
+} from '../store/slices/cartSlice';
 
 const Cart = () => {
-	const { state, updateQuantity, removeItem, clearCart } = useCart();
+	const dispatch = useAppDispatch();
+	const items = useAppSelector(selectCartItems);
+	const total = useAppSelector(selectCartTotal);
 
-	if (state.items.length === 0) {
+	if (items.length === 0) {
 		return (
-			<div className="hero bg-base-200 min-h-screen">
+			<div className="hero min-h-screen bg-base-200">
 				<div className="hero-content text-center">
 					<div className="max-w-md">
-						<div className="avatar placeholder mb-6">
-							<div className="bg-neutral text-neutral-content w-24 rounded-full">
+						<div className="placeholder avatar mb-6">
+							<div className="w-24 rounded-full bg-neutral text-neutral-content">
 								<FaShoppingCart className="h-12 w-12" />
 							</div>
 						</div>
-						<h1 className="text-base-content mb-4 text-3xl font-bold">
+						<h1 className="mb-4 text-3xl font-bold text-base-content">
 							Your cart is empty
 						</h1>
 						<p className="text-base-content/70 mb-8">
@@ -38,11 +47,11 @@ const Cart = () => {
 				{/* Cart Items */}
 				<div className="lg:col-span-2">
 					<div className="mb-6 flex items-center justify-between">
-						<h1 className="text-base-content text-3xl font-bold">
+						<h1 className="text-3xl font-bold text-base-content">
 							Shopping Cart
 						</h1>
 						<button
-							onClick={clearCart}
+							onClick={() => dispatch(clearCart())}
 							className="btn btn-ghost btn-sm text-error"
 						>
 							Clear Cart
@@ -50,7 +59,7 @@ const Cart = () => {
 					</div>
 
 					<div className="space-y-4">
-						{state.items.map((item) => (
+						{items.map((item) => (
 							<div
 								key={item.product.id}
 								className="card bg-base-100 shadow-xl"
@@ -72,7 +81,7 @@ const Cart = () => {
 										<div className="flex-1">
 											<Link
 												to={`/product/${item.product.id}`}
-												className="card-title hover:text-primary text-lg transition-colors"
+												className="card-title text-lg transition-colors hover:text-primary"
 											>
 												{item.product.name}
 											</Link>
@@ -90,30 +99,44 @@ const Cart = () => {
 													<div className="join">
 														<button
 															onClick={() =>
-																updateQuantity(
-																	item.product
-																		.id,
-																	item.quantity -
-																		1,
+																dispatch(
+																	updateQuantity(
+																		{
+																			productId:
+																				item
+																					.product
+																					.id,
+																			quantity:
+																				item.quantity -
+																				1,
+																		},
+																	),
 																)
 															}
-															className="btn join-item btn-sm"
+															className="btn btn-sm join-item"
 														>
 															-
 														</button>
-														<button className="btn join-item btn-sm btn-disabled">
+														<button className="btn btn-disabled btn-sm join-item">
 															{item.quantity}
 														</button>
 														<button
 															onClick={() =>
-																updateQuantity(
-																	item.product
-																		.id,
-																	item.quantity +
-																		1,
+																dispatch(
+																	updateQuantity(
+																		{
+																			productId:
+																				item
+																					.product
+																					.id,
+																			quantity:
+																				item.quantity +
+																				1,
+																		},
+																	),
 																)
 															}
-															className="btn join-item btn-sm"
+															className="btn btn-sm join-item"
 														>
 															+
 														</button>
@@ -121,7 +144,7 @@ const Cart = () => {
 
 													{/* Price */}
 													<div className="text-right">
-														<div className="text-primary text-lg font-bold">
+														<div className="text-lg font-bold text-primary">
 															$
 															{(
 																item.product
@@ -140,8 +163,10 @@ const Cart = () => {
 												{/* Remove Button */}
 												<button
 													onClick={() =>
-														removeItem(
-															item.product.id,
+														dispatch(
+															removeItem(
+																item.product.id,
+															),
 														)
 													}
 													className="btn btn-ghost btn-sm text-error"
@@ -159,7 +184,7 @@ const Cart = () => {
 
 				{/* Order Summary */}
 				<div className="lg:col-span-1">
-					<div className="card bg-base-100 sticky top-4 shadow-xl">
+					<div className="card sticky top-4 bg-base-100 shadow-xl">
 						<div className="card-body">
 							<h2 className="card-title mb-4 text-xl">
 								Order Summary
@@ -168,17 +193,17 @@ const Cart = () => {
 							<div className="space-y-3">
 								<div className="flex justify-between">
 									<span className="text-base-content/70">
-										Subtotal ({state.items.length} items)
+										Subtotal ({items.length} items)
 									</span>
 									<span className="font-semibold">
-										${state.total.toFixed(2)}
+										${total.toFixed(2)}
 									</span>
 								</div>
 								<div className="flex justify-between">
 									<span className="text-base-content/70">
 										Shipping
 									</span>
-									<span className="text-success font-semibold">
+									<span className="font-semibold text-success">
 										Free
 									</span>
 								</div>
@@ -187,14 +212,14 @@ const Cart = () => {
 										Tax
 									</span>
 									<span className="font-semibold">
-										${(state.total * 0.08).toFixed(2)}
+										${(total * 0.08).toFixed(2)}
 									</span>
 								</div>
 								<div className="divider"></div>
 								<div className="flex justify-between text-lg font-bold">
 									<span>Total</span>
 									<span className="text-primary">
-										${(state.total * 1.08).toFixed(2)}
+										${(total * 1.08).toFixed(2)}
 									</span>
 								</div>
 							</div>
@@ -214,16 +239,16 @@ const Cart = () => {
 					</div>
 
 					{/* Promo Code */}
-					<div className="card bg-base-100 mt-4 shadow-xl">
+					<div className="card mt-4 bg-base-100 shadow-xl">
 						<div className="card-body">
 							<h3 className="card-title mb-3 text-lg">
 								Promo Code
 							</h3>
-							<div className="join w-full">
+							<div className="w-full join">
 								<input
 									type="text"
 									placeholder="Enter code"
-									className="input input-bordered join-item flex-1"
+									className="input-bordered input flex-1 join-item"
 								/>
 								<button className="btn join-item">Apply</button>
 							</div>
