@@ -5,10 +5,13 @@ import { FaRegUser, FaRegHeart } from 'react-icons/fa';
 import { SlBasket } from 'react-icons/sl';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { IoMenuSharp } from 'react-icons/io5';
+import { FaSun, FaMoon } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
+import { useTheme } from '../context/ThemeContext';
 
 function Navbar() {
 	const { state } = useCart();
+	const { theme, toggleTheme } = useTheme();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const cartItemCount = state.items.reduce(
 		(total, item) => total + item.quantity,
@@ -59,7 +62,7 @@ function Navbar() {
 					{isMenuOpen && (
 						<ul
 							tabIndex={0}
-							className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+							className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
 						>
 							{navLinks.map((link, index) => (
 								<li key={index}>
@@ -85,7 +88,7 @@ function Navbar() {
 						<li key={index}>
 							<Link
 								to={link.href}
-								className="hover:text-primary transition-colors"
+								className="transition-colors hover:text-primary"
 							>
 								{link.label}
 							</Link>
@@ -114,13 +117,25 @@ function Navbar() {
 						</button>
 					))}
 
+					<button
+						onClick={toggleTheme}
+						className="btn btn-ghost btn-circle"
+						title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+					>
+						{theme === 'light' ? (
+							<FaMoon className="h-5 w-5" />
+						) : (
+							<FaSun className="h-5 w-5" />
+						)}
+					</button>
+
 					<Link
 						to="/cart"
 						className="btn btn-ghost btn-circle relative"
 					>
 						<SlBasket className="h-5 w-5" />
 						{cartItemCount > 0 && (
-							<span className="badge badge-primary badge-sm absolute -top-1 -right-1">
+							<span className="badge badge-primary badge-sm absolute -right-1 -top-1">
 								{cartItemCount}
 							</span>
 						)}
