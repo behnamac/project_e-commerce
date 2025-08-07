@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IoSearch } from 'react-icons/io5';
-import { FaRegUser, FaRegHeart } from 'react-icons/fa';
+import { FaRegUser, FaRegHeart, FaBell } from 'react-icons/fa';
 import { SlBasket } from 'react-icons/sl';
-import { FaPhoneAlt } from 'react-icons/fa';
 import { IoMenuSharp } from 'react-icons/io5';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -16,131 +15,127 @@ function Navbar() {
 	const cartItemCount = useAppSelector(selectCartItemCount);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-	const navButtons = [
-		{
-			icon: IoSearch,
-			label: 'Search',
-			action: () => console.log('Search'),
-		},
-		{
-			icon: FaRegHeart,
-			label: 'Favorites',
-			action: () => console.log('Favorites'),
-		},
-		{
-			icon: FaRegUser,
-			label: 'Profile',
-			action: () => console.log('Profile'),
-		},
-	];
-
 	const navLinks = [
-		{ href: '/', label: 'Home' },
-		{ href: '/category/backpack', label: 'Backpacks' },
-		{ href: '/category/messenger', label: 'Messenger Bags' },
-		{ href: '/category/briefcase', label: 'Briefcases' },
-		{ href: '/category/tote', label: 'Tote Bags' },
-		{ href: '/category/clutch', label: 'Clutches' },
-		{ href: '/category/tshirt', label: 'T-Shirts' },
-		{ href: '/category/shoes', label: 'Shoes' },
+		{ href: '/', label: 'About us' },
+		{ href: '/products', label: 'Products', hasDropdown: true },
+		{ href: '/collection', label: 'Collection' },
+		{ href: '/new', label: 'New' },
+		{ href: '/sales', label: 'Sales' },
 	];
 
 	return (
-		<div className="navbar bg-base-100 shadow-lg">
-			<div className="navbar-start">
-				<div className="dropdown">
-					<div
-						tabIndex={0}
-						role="button"
-						className="btn btn-ghost lg:hidden"
-						onClick={() => setIsMenuOpen(!isMenuOpen)}
-					>
-						<IoMenuSharp className="h-5 w-5" />
+		<nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md dark:bg-gray-900/80">
+			<div className="container mx-auto px-4">
+				<div className="flex h-16 items-center justify-between">
+					{/* Logo */}
+					<Link to="/" className="flex items-center gap-2">
+						<div className="text-2xl font-bold text-gray-900 dark:text-white">
+							Trend
+						</div>
+					</Link>
+
+					{/* Desktop Navigation */}
+					<div className="hidden lg:flex lg:items-center lg:space-x-8">
+						{navLinks.map((link, index) => (
+							<Link
+								key={index}
+								to={link.href}
+								className="group relative flex items-center gap-1 text-gray-700 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+							>
+								{link.label}
+								{link.hasDropdown && (
+									<svg
+										className="h-4 w-4 transition-transform group-hover:rotate-180"
+										fill="none"
+										stroke="currentColor"
+										viewBox="0 0 24 24"
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth={2}
+											d="M19 9l-7 7-7-7"
+										/>
+									</svg>
+								)}
+							</Link>
+						))}
 					</div>
-					{isMenuOpen && (
-						<ul
-							tabIndex={0}
-							className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
+
+					{/* Right Side Actions */}
+					<div className="flex items-center gap-4">
+						{/* Theme Toggle */}
+						<button
+							onClick={() => dispatch(toggleTheme())}
+							className="btn btn-ghost btn-sm btn-circle"
+							title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
 						>
-							{navLinks.map((link, index) => (
-								<li key={index}>
+							{theme === 'light' ? (
+								<FaMoon className="h-4 w-4" />
+							) : (
+								<FaSun className="h-4 w-4" />
+							)}
+						</button>
+
+						{/* Notification */}
+						<button className="btn btn-ghost btn-sm btn-circle">
+							<FaBell className="h-4 w-4" />
+						</button>
+
+						{/* Wishlist */}
+						<button className="btn btn-ghost btn-sm btn-circle">
+							<FaRegHeart className="h-4 w-4" />
+						</button>
+
+						{/* Cart */}
+						<Link
+							to="/cart"
+							className="btn btn-ghost btn-sm btn-circle relative"
+						>
+							<SlBasket className="h-4 w-4" />
+							{cartItemCount > 0 && (
+								<span className="badge badge-primary badge-xs absolute -right-1 -top-1">
+									{cartItemCount}
+								</span>
+							)}
+						</Link>
+
+						{/* User Profile */}
+						<button className="btn btn-ghost btn-sm btn-circle">
+							<FaRegUser className="h-4 w-4" />
+						</button>
+
+						{/* Mobile Menu Button */}
+						<button
+							onClick={() => setIsMenuOpen(!isMenuOpen)}
+							className="btn btn-ghost btn-sm btn-circle lg:hidden"
+						>
+							<IoMenuSharp className="h-5 w-5" />
+						</button>
+					</div>
+				</div>
+
+				{/* Mobile Menu */}
+				{isMenuOpen && (
+					<div className="lg:hidden">
+						<div className="border-t border-gray-200 py-4 dark:border-gray-700">
+							<div className="flex flex-col space-y-4">
+								{navLinks.map((link, index) => (
 									<Link
+										key={index}
 										to={link.href}
-										className="hover:text-primary"
+										className="text-gray-700 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+										onClick={() => setIsMenuOpen(false)}
 									>
 										{link.label}
 									</Link>
-								</li>
-							))}
-						</ul>
-					)}
-				</div>
-				<Link to="/" className="btn btn-ghost font-display text-xl">
-					BENSTORE
-				</Link>
+								))}
+							</div>
+						</div>
+					</div>
+				)}
 			</div>
-
-			<div className="navbar-center hidden lg:flex">
-				<ul className="menu menu-horizontal px-1">
-					{navLinks.map((link, index) => (
-						<li key={index}>
-							<Link
-								to={link.href}
-								className="transition-colors hover:text-primary"
-							>
-								{link.label}
-							</Link>
-						</li>
-					))}
-				</ul>
-			</div>
-
-			<div className="navbar-end">
-				<div className="mr-4 hidden items-center gap-2 md:flex">
-					<button className="btn btn-ghost btn-sm">
-						<FaPhoneAlt className="h-4 w-4" />
-						<span className="hidden lg:inline">+1-123456789</span>
-					</button>
-				</div>
-
-				<div className="flex items-center gap-2">
-					{navButtons.map((button, index) => (
-						<button
-							key={index}
-							onClick={button.action}
-							className="btn btn-ghost btn-circle"
-							title={button.label}
-						>
-							<button.icon className="h-5 w-5" />
-						</button>
-					))}
-
-					<button
-						onClick={() => dispatch(toggleTheme())}
-						className="btn btn-ghost btn-circle"
-						title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-					>
-						{theme === 'light' ? (
-							<FaMoon className="h-5 w-5" />
-						) : (
-							<FaSun className="h-5 w-5" />
-						)}
-					</button>
-
-					<Link
-						to="/cart"
-						className="btn btn-ghost btn-circle relative"
-					>
-						<SlBasket className="h-5 w-5" />
-						{cartItemCount > 0 && (
-							<span className="badge badge-primary badge-sm absolute -right-1 -top-1">
-								{cartItemCount}
-							</span>
-						)}
-					</Link>
-				</div>
-			</div>
-		</div>
+		</nav>
 	);
 }
 

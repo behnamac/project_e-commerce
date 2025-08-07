@@ -27,19 +27,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 	};
 
 	return (
-		<div className="hover-lift group card bg-base-100 shadow-xl transition-all duration-300 hover:shadow-2xl">
-			<figure className="relative overflow-hidden">
+		<div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:shadow-xl dark:bg-gray-800">
+			{/* Product Image */}
+			<div className="relative aspect-square overflow-hidden">
 				<Link to={`/product/${product.id}`}>
 					<img
 						src={product.images[0]}
 						alt={product.name}
-						className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+						className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
 					/>
 				</Link>
 
-				{/* Badge for discount */}
+				{/* Discount Badge */}
 				{product.originalPrice && (
-					<div className="badge badge-error absolute left-2 top-2">
+					<div className="absolute left-3 top-3 rounded-full bg-red-500 px-2 py-1 text-xs font-bold text-white">
 						{Math.round(
 							((product.originalPrice - product.price) /
 								product.originalPrice) *
@@ -49,71 +50,93 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 					</div>
 				)}
 
-				{/* Wishlist button */}
+				{/* Wishlist Button */}
 				<button
 					onClick={handleWishlist}
-					className={`btn btn-sm btn-circle absolute right-2 top-2 ${
-						isWishlisted ? 'btn-error' : 'bg-base-100/80 btn-ghost'
+					className={`absolute right-3 top-3 rounded-full p-2 transition-all duration-200 ${
+						isWishlisted
+							? 'bg-red-500 text-white'
+							: 'bg-white/80 text-gray-600 backdrop-blur-sm hover:bg-red-500 hover:text-white dark:bg-gray-800/80 dark:text-gray-300'
 					}`}
 				>
 					<FaHeart className="h-4 w-4" />
 				</button>
-			</figure>
 
-			<div className="card-body p-4">
+				{/* Add to Cart Button */}
+				<button
+					onClick={handleAddToCart}
+					disabled={!product.inStock}
+					className={`absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
+						quantity > 0
+							? 'bg-blue-600 text-white'
+							: 'bg-white/90 text-gray-800 backdrop-blur-sm hover:bg-blue-600 hover:text-white dark:bg-gray-800/90 dark:text-white'
+					} ${!product.inStock ? 'cursor-not-allowed opacity-50' : ''}`}
+				>
+					{quantity > 0 ? (
+						`${quantity} in cart`
+					) : (
+						<>
+							<FaShoppingCart className="mr-1 inline h-3 w-3" />
+							Add to Cart
+						</>
+					)}
+				</button>
+			</div>
+
+			{/* Product Info */}
+			<div className="p-4">
 				<Link to={`/product/${product.id}`}>
-					<h2 className="card-title line-clamp-2 text-base transition-colors hover:text-primary">
+					<h3 className="mb-2 text-lg font-semibold text-gray-900 transition-colors hover:text-blue-600 dark:text-white dark:hover:text-blue-400">
 						{product.name}
-					</h2>
+					</h3>
 				</Link>
 
 				{/* Rating */}
-				<div className="mb-2 flex items-center gap-2">
-					<div className="rating rating-sm">
+				<div className="mb-3 flex items-center gap-2">
+					<div className="flex">
 						{Array.from({ length: 5 }).map((_, index) => (
-							<input
+							<svg
 								key={index}
-								type="radio"
-								name={`rating-${product.id}`}
-								className="mask mask-star-2 bg-orange-400"
-								checked={index < Math.floor(product.rating)}
-								readOnly
-							/>
+								className={`h-4 w-4 ${
+									index < Math.floor(product.rating)
+										? 'text-yellow-400'
+										: 'text-gray-300'
+								}`}
+								fill="currentColor"
+								viewBox="0 0 20 20"
+							>
+								<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+							</svg>
 						))}
 					</div>
-					<span className="text-base-content/60 text-sm">
+					<span className="text-sm text-gray-600 dark:text-gray-400">
 						({product.reviews})
 					</span>
 				</div>
 
 				{/* Price */}
-				<div className="mb-3 flex items-center gap-2">
-					<span className="text-xl font-bold text-primary">
+				<div className="flex items-center gap-2">
+					<span className="text-xl font-bold text-gray-900 dark:text-white">
 						${product.price}
 					</span>
 					{product.originalPrice && (
-						<span className="text-base-content/50 text-sm line-through">
+						<span className="text-sm text-gray-500 line-through dark:text-gray-400">
 							${product.originalPrice}
 						</span>
 					)}
 				</div>
 
-				{/* Stock status and Add to cart */}
-				<div className="card-actions items-center justify-between">
+				{/* Stock Status */}
+				<div className="mt-3">
 					<span
-						className={`badge ${product.inStock ? 'badge-success' : 'badge-error'}`}
+						className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+							product.inStock
+								? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+								: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+						}`}
 					>
 						{product.inStock ? 'In Stock' : 'Out of Stock'}
 					</span>
-
-					<button
-						onClick={handleAddToCart}
-						disabled={!product.inStock}
-						className={`btn btn-primary btn-sm ${quantity > 0 ? 'btn-outline' : ''}`}
-					>
-						<FaShoppingCart className="h-4 w-4" />
-						{quantity > 0 ? `(${quantity})` : 'Add to Cart'}
-					</button>
 				</div>
 			</div>
 		</div>

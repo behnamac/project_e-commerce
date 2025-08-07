@@ -13,88 +13,89 @@ const Footer = () => {
 	const currentYear = new Date().getFullYear();
 
 	return (
-		<footer className="footer footer-center bg-neutral text-neutral-content p-10">
-			<div className="container mx-auto">
+		<footer className="bg-gray-900 text-white">
+			<div className="container mx-auto px-4 py-16">
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
 					{/* Company Info */}
 					<div>
-						<h3 className="font-display mb-4 text-2xl font-bold">
-							BENSTORE
-						</h3>
-						<p className="text-neutral-content/80 mb-4">
-							Your premier destination for high-quality bags and
-							accessories. We offer the finest selection of
+						<h3 className="mb-4 text-2xl font-bold">Trend</h3>
+						<p className="mb-6 text-gray-400">
+							Your premier destination for high-quality fashion
+							and accessories. We offer the finest selection of
 							premium products for every lifestyle.
 						</p>
-						<div className="flex gap-2">
+						<div className="flex gap-4">
 							<a
 								href="#"
-								className="btn btn-circle btn-sm btn-ghost"
+								className="rounded-full bg-gray-800 p-2 text-gray-400 transition-colors hover:bg-blue-600 hover:text-white"
 							>
-								<FaFacebook />
+								<FaFacebook className="h-4 w-4" />
 							</a>
 							<a
 								href="#"
-								className="btn btn-circle btn-sm btn-ghost"
+								className="rounded-full bg-gray-800 p-2 text-gray-400 transition-colors hover:bg-blue-400 hover:text-white"
 							>
-								<FaTwitter />
+								<FaTwitter className="h-4 w-4" />
 							</a>
 							<a
 								href="#"
-								className="btn btn-circle btn-sm btn-ghost"
+								className="rounded-full bg-gray-800 p-2 text-gray-400 transition-colors hover:bg-pink-600 hover:text-white"
 							>
-								<FaInstagram />
+								<FaInstagram className="h-4 w-4" />
 							</a>
 							<a
 								href="#"
-								className="btn btn-circle btn-sm btn-ghost"
+								className="rounded-full bg-gray-800 p-2 text-gray-400 transition-colors hover:bg-blue-700 hover:text-white"
 							>
-								<FaLinkedin />
+								<FaLinkedin className="h-4 w-4" />
 							</a>
 						</div>
 					</div>
 
 					{/* Quick Links */}
 					<div>
-						<h4 className="mb-4 text-lg font-semibold">
+						<h4 className="mb-6 text-lg font-semibold">
 							Quick Links
 						</h4>
-						<ul className="space-y-2">
+						<ul className="space-y-3">
 							<li>
-								<Link to="/" className="link link-hover">
+								<Link
+									to="/"
+									className="text-gray-400 transition-colors hover:text-white"
+								>
 									Home
 								</Link>
 							</li>
 							<li>
 								<Link
-									to="/?category=backpack"
-									className="link link-hover"
+									to="/products"
+									className="text-gray-400 transition-colors hover:text-white"
 								>
-									Backpacks
+									Products
 								</Link>
 							</li>
 							<li>
 								<Link
-									to="/?category=messenger"
-									className="link link-hover"
+									to="/collection"
+									className="text-gray-400 transition-colors hover:text-white"
 								>
-									Messenger Bags
+									Collection
 								</Link>
 							</li>
 							<li>
 								<Link
-									to="/?category=briefcase"
-									className="link link-hover"
+									to="/new"
+									className="text-gray-400 transition-colors hover:text-white"
 								>
-									Briefcases
+									New Arrivals
 								</Link>
 							</li>
 							<li>
 								<Link
-									to="/?category=tote"
-									className="link link-hover"
+									to="/sales"
+									className="text-gray-400 transition-colors hover:text-white"
 								>
-									Tote Bags
+									Sales
 								</Link>
 							</li>
 						</ul>
@@ -102,37 +103,46 @@ const Footer = () => {
 
 					{/* Customer Service */}
 					<div>
-						<h4 className="mb-4 text-lg font-semibold">
+						<h4 className="mb-6 text-lg font-semibold">
 							Customer Service
 						</h4>
-						<ul className="space-y-2">
+						<ul className="space-y-3">
 							<li>
-								<Link to="/contact" className="link link-hover">
+								<Link
+									to="/contact"
+									className="text-gray-400 transition-colors hover:text-white"
+								>
 									Contact Us
 								</Link>
 							</li>
 							<li>
 								<Link
 									to="/shipping"
-									className="link link-hover"
+									className="text-gray-400 transition-colors hover:text-white"
 								>
 									Shipping Info
 								</Link>
 							</li>
 							<li>
-								<Link to="/returns" className="link link-hover">
+								<Link
+									to="/returns"
+									className="text-gray-400 transition-colors hover:text-white"
+								>
 									Returns & Exchanges
 								</Link>
 							</li>
 							<li>
-								<Link to="/faq" className="link link-hover">
+								<Link
+									to="/faq"
+									className="text-gray-400 transition-colors hover:text-white"
+								>
 									FAQ
 								</Link>
 							</li>
 							<li>
 								<Link
 									to="/size-guide"
-									className="link link-hover"
+									className="text-gray-400 transition-colors hover:text-white"
 								>
 									Size Guide
 								</Link>
@@ -142,42 +152,42 @@ const Footer = () => {
 
 					{/* Contact Info */}
 					<div>
-						<h4 className="mb-4 text-lg font-semibold">
+						<h4 className="mb-6 text-lg font-semibold">
 							Contact Info
 						</h4>
-						<div className="space-y-3">
+						<div className="space-y-4">
 							<div className="flex items-center gap-3">
-								<FaMapMarkerAlt className="text-primary" />
-								<span className="text-neutral-content/80">
-									123 Store Street, City, State 12345
+								<FaMapMarkerAlt className="text-blue-400" />
+								<span className="text-gray-400">
+									123 Fashion Street, City, State 12345
 								</span>
 							</div>
 							<div className="flex items-center gap-3">
-								<FaPhone className="text-primary" />
-								<span className="text-neutral-content/80">
+								<FaPhone className="text-blue-400" />
+								<span className="text-gray-400">
 									+1 (123) 456-7890
 								</span>
 							</div>
 							<div className="flex items-center gap-3">
-								<FaEnvelope className="text-primary" />
-								<span className="text-neutral-content/80">
-									info@benstore.com
+								<FaEnvelope className="text-blue-400" />
+								<span className="text-gray-400">
+									info@trend.com
 								</span>
 							</div>
 						</div>
 
 						{/* Newsletter */}
-						<div className="mt-6">
-							<h5 className="mb-3 text-sm font-semibold">
+						<div className="mt-8">
+							<h5 className="mb-4 text-sm font-semibold">
 								Newsletter
 							</h5>
-							<div className="join w-full">
+							<div className="flex gap-2">
 								<input
 									type="email"
 									placeholder="Your email"
-									className="input input-bordered join-item flex-1"
+									className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none"
 								/>
-								<button className="btn btn-primary join-item">
+								<button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700">
 									Subscribe
 								</button>
 							</div>
@@ -186,19 +196,29 @@ const Footer = () => {
 				</div>
 
 				{/* Bottom Bar */}
-				<div className="divider"></div>
-				<div className="text-neutral-content/60 flex flex-col items-center justify-between gap-4 text-sm sm:flex-row">
-					<p>&copy; {currentYear} BENSTORE. All rights reserved.</p>
-					<div className="flex gap-6">
-						<Link to="/privacy" className="link link-hover">
-							Privacy Policy
-						</Link>
-						<Link to="/terms" className="link link-hover">
-							Terms of Service
-						</Link>
-						<Link to="/sitemap" className="link link-hover">
-							Sitemap
-						</Link>
+				<div className="mt-12 border-t border-gray-800 pt-8">
+					<div className="flex flex-col items-center justify-between gap-4 text-sm text-gray-400 sm:flex-row">
+						<p>&copy; {currentYear} Trend. All rights reserved.</p>
+						<div className="flex gap-6">
+							<Link
+								to="/privacy"
+								className="transition-colors hover:text-white"
+							>
+								Privacy Policy
+							</Link>
+							<Link
+								to="/terms"
+								className="transition-colors hover:text-white"
+							>
+								Terms of Service
+							</Link>
+							<Link
+								to="/sitemap"
+								className="transition-colors hover:text-white"
+							>
+								Sitemap
+							</Link>
+						</div>
 					</div>
 				</div>
 			</div>
